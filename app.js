@@ -1,10 +1,13 @@
 const http = require("http");
+require("dotenv").config();
 
 let listeners = 0;
 
+const tokenLastfm = process.env.LASTFM_TOKEN;
+
 http
   .get(
-    `http://ws.audioscrobbler.com/2.0/?method=artist.search&artist=placebo&api_key=${LASTFM_TOKEN}&format=json`,
+    `http://ws.audioscrobbler.com/2.0/?method=artist.search&artist=placebo&api_key=${tokenLastfm}&format=json`,
     (res) => {
       let data = "";
       let results = "";
@@ -28,7 +31,6 @@ http
   });
 
 const TelegramBot = require("node-telegram-bot-api");
-require("dotenv").config();
 
 const token = process.env.BOT_TOKEN;
 
@@ -39,6 +41,11 @@ const bot = new TelegramBot(token, {
 bot.onText(/\/echo/, (msg, match) => {
   const id = msg.chat.id;
   bot.sendMessage(id, "Echo command");
+});
+
+bot.onText(/\/start/, (msg, match) => {
+  const id = msg.chat.id;
+  bot.sendMessage(id, `Hello`);
 });
 
 bot.onText(/\/kbd/, (msg, match) => {
