@@ -1,13 +1,15 @@
 const TelegramBot = require("node-telegram-bot-api");
+require('dotenv').config();
 
 const token = process.env.BOT_TOKEN;
 
 const bot = new TelegramBot(token, {
-  polling: true,
+  polling: true
 });
 
 bot.onText(/\/echo/, (msg, match) => {
   const id = msg.chat.id;
+  console.log(id);
   console.log(msg);
   bot.sendMessage(id, "Echo command");
 });
